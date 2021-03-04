@@ -9,7 +9,9 @@ import study.datajpa.dto.MemberDto;
 import study.datajpa.entity.Member;
 import study.datajpa.entity.Team;
 
+import java.util.Arrays;
 import java.util.List;
+import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.*;
 
@@ -126,6 +128,52 @@ class MemberRepositoryTest {
         }
 
     }
+
+    @Test
+    public void findByMembers() {
+
+        Member member1 = new Member("aaa");
+        Member member2 = new Member("bbb");
+
+        memberRepository.save(member1);
+        memberRepository.save(member2);
+
+        List<Member> byNames = memberRepository.findByNames(Arrays.asList("aaa", "bbb"));
+        System.out.println("=======");
+        for (Member byName : byNames) {
+            System.out.println(byName);
+        }
+
+
+    }
+
+
+    @Test
+    public void returnType() {
+        Member m1 = new Member("AAA");
+        Member m2 = new Member("BBB");
+
+        memberRepository.save(m1);
+        memberRepository.save(m2);
+
+        List<Member> aaa= memberRepository.findListByUsername("AAA");
+        System.out.println("list member : " + aaa.get(0));
+
+        //리스트로 하면 무조건 널이 아니게 나옴. 빈 리스트로 나옴.
+
+        Member finduser = memberRepository.findMemberByUsername("asdf");
+        System.out.println("findmember="+finduser);
+        //없으면 널이 나옴.
+
+        Optional<Member> findMember = memberRepository.findOptionalByUsername("asdasda");
+        System.out.println("find optional member = " + findMember);
+
+
+    }
+
+
+
+
 
 
 
